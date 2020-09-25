@@ -16,8 +16,8 @@ gem 'sidekiq'
 gem 'devise'
 gem 'devise_token_auth'
 
-group :test do
-  gem 'rspec'
+group :development, :test do
+  gem 'rspec-rails'
 end
 
 group :development do
