@@ -1,49 +1,36 @@
 require "rails_helper"
+require "./spec/support/authentication_helper"
 
-RSpec.describe "Authentication", :type => :request do
+RSpec.configure do |c|
+  c.include AuthenticationHelper
+end
+
+
+RSpec.describe "Authentication" , :type => :request do
+
+  before do
+    @params = create_user
+  end
 
   context "User sign up" do
 
     it "with valid data" do  
-      
-      post '/auth', params:  {
-        name: 'Fake Name',
-        email: 'fake@gmail.com',
-        password: '123456',
-        password_confirmation: '123456'
-      }
 
+      register_user @params
       expect(response).to have_http_status(:success)
     end
 
-    it "with invalid data" do
-      
-      post '/auth', params: {
-        name: 'Fake Name',
-        email: '',
-        password: '123456',
-        password_confirmation: '123456'
-      }
+    it "with invalid data" do      
+      @params[:email] = ''
 
+      register_user @params
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
     it "with existing user data" do
       
-      post '/auth', params:  {
-        name: 'Fake Name',
-        email: 'fake@gmail.com',
-        password: '123456',
-        password_confirmation: '123456'
-      }
-
-      post '/auth', params:  {
-        name: 'Fake Name',
-        email: 'fake@gmail.com',
-        password: '123456',
-        password_confirmation: '123456'
-      }
-
+      register_user @params
+      register_user @params
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
@@ -52,53 +39,19 @@ RSpec.describe "Authentication", :type => :request do
 
     it "with valid data" do
 
-      post '/auth', params: {
-        name: 'Fake User',
-        email: 'aberardi@rlink.com.ar',
-        password: '123456',
-        password_confirmation: '123456'
-      }
-
-      @user = User.first
-      @user.confirmed_at = Time.now
-      @user.save
-
-      post '/auth/sign_in', params: {
-        email: 'aberardi@rlink.com.ar',
-        password: '123456'
-      }
-
+      headers = sign_up_and_sign_in @params
       expect(response).to have_http_status(:success)
     end
 
     it "with invalid data" do
 
-      post '/auth/sign_in', params: {
-        email: 'aberardi@rlink.com.ar',
-        password: '123456'
-      }
-
+      sign_in @params
       expect(response).to have_http_status(:unauthorized)
     end
 
     it "retrieve authentication token headers" do
 
-      post '/auth', params: {
-        name: 'Fake User',
-        email: 'aberardi@rlink.com.ar',
-        password: '123456',
-        password_confirmation: '123456'
-      }
-
-      @user = User.first
-      @user.confirmed_at = Time.now
-      @user.save
-
-      post '/auth/sign_in', params: {
-        email: 'aberardi@rlink.com.ar',
-        password: '123456'
-      }    
-
+      headers = sign_up_and_sign_in @params
       expect(response.has_header?('access-token')).to eq(true)
     end   
 
@@ -110,29 +63,7 @@ RSpec.describe "Authentication", :type => :request do
 
     it "can access to private routes" do
       
-      post '/auth', params: {
-        name: 'Fake User',
-        email: 'aberardi@rlink.com.ar',
-        password: '123456',
-        password_confirmation: '123456'
-      }
-
-      @user = User.first
-      @user.confirmed_at = Time.now
-      @user.save
-
-      post '/auth/sign_in', params: {
-        email: 'aberardi@rlink.com.ar',
-        password: '123456'
-      }    
-
-      devise_headers = DeviseTokenAuth.headers_names
-
-      headers = {
-        devise_headers[:'access-token'] => response.headers[devise_headers[:'access-token']],
-        devise_headers[:'uid'] => response.headers[devise_headers[:'uid']],
-        devise_headers[:'client'] => response.headers[devise_headers[:'client']]
-      }
+      headers = sign_up_and_sign_in @params
 
       get home_path, params: {}, headers: headers
       expect(response).to have_http_status(:success)
@@ -144,29 +75,7 @@ RSpec.describe "Authentication", :type => :request do
 
     it "after sign in" do
 
-      post '/auth', params: {
-        name: 'Fake User',
-        email: 'aberardi@rlink.com.ar',
-        password: '123456',
-        password_confirmation: '123456'
-      }
-
-      @user = User.first
-      @user.confirmed_at = Time.now
-      @user.save
-
-      post '/auth/sign_in', params: {
-        email: 'aberardi@rlink.com.ar',
-        password: '123456'
-      }    
-
-      devise_headers = DeviseTokenAuth.headers_names
-
-      headers = {
-        devise_headers[:'access-token'] => response.headers[devise_headers[:'access-token']],
-        devise_headers[:'uid'] => response.headers[devise_headers[:'uid']],
-        devise_headers[:'client'] => response.headers[devise_headers[:'client']]
-      }
+      headers = sign_up_and_sign_in @params
 
       delete destroy_user_session_path, params: {}, headers: headers
       expect(response).to have_http_status(:success)
