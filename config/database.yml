@@ -2,6 +2,9 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
+  username: postgres
+  password: postgres
+  host: localhost
 
 development:
   <<: *default
@@ -13,11 +16,8 @@ development:
 test:
   <<: *default
   database: emmon_api_test
-  username: postgres
-  password: postgres
-  host: localhost
 
 production:
   <<: *default
   #database: emmon_api
-  uri: ENV['DATABASE_URL']
+  url: <%= ENV['DATABASE_URL'] =>
