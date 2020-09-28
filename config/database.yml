@@ -2,16 +2,20 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-#  username: postgres
-#  password: postgres
 
 development:
   <<: *default
   database: emmon_api_development
+  username: postgres
+  password: postgres
+  host: localhost
 
 test:
   <<: *default
   database: emmon_api_test
+  username: postgres
+  password: postgres
+  host: localhost
 
 production:
   <<: *default

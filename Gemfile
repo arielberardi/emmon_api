@@ -12,13 +12,12 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'image_processing', '~> 1.2'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'rack-cors'
-gem 'sidekiq'
+#gem 'sidekiq'
 gem 'devise'
 gem 'devise_token_auth'
 
 group :development, :test do
   gem 'rspec-rails'
-  gem 'factory_bot'
 end
 
 group :development do
