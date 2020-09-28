@@ -40,8 +40,8 @@ module EmmonApi
     config.action_mailer.default_url_options = { host: 'localhost:3000' }
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      user_name:     ENV['SMTP_USERNAME'],
-      password:      ENV['SMTP_PASSWORD'],
+      user_name:     Rails.application.credentials.mailer[:user_name],
+      password:      Rails.application.credentials.mailer[:password],
       domain:        'gmail.com',
       address:       'smtp.gmail.com',
       port:          587,

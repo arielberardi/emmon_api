@@ -19,5 +19,4 @@ test:
 
 production:
   <<: *default
-  #database: emmon_api
   url: <%= ENV['DATABASE_URL'] %>
