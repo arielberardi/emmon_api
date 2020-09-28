@@ -2,8 +2,8 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: postgres
-  password: postgres
+#  username: postgres
+#  password: postgres
 
 development:
   <<: *default
@@ -15,8 +15,8 @@ test:
 
 production:
   <<: *default
-  #database: emmon_api
-  url: ENV['DATABASE_URL']
+  database: emmon_api
+  #url: ENV['DATABASE_URL']
   #username: <%= Rails.application.credentials.database['username'] %>
   #password: <%= Rails.application.credentials.database['password'] %>
   #host: <%= Rails.application.credentials.database['host'] %>
