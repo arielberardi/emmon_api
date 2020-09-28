@@ -18,6 +18,7 @@ gem 'devise_token_auth'
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'factory_bot'
 end
 
 group :development do

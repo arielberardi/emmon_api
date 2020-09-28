@@ -1,15 +1,9 @@
 require "rails_helper"
-require "./spec/support/authentication_helper"
-
-RSpec.configure do |c|
-  c.include AuthenticationHelper
-end
-
 
 RSpec.describe "Authentication" , :type => :request do
 
   before do
-    @params = create_user
+    @params = user_attributes
   end
 
   context "User sign up" do
@@ -88,5 +82,5 @@ RSpec.describe "Authentication" , :type => :request do
     end
 
   end
-
+  
 end

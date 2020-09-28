@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+puts 'Creating default roles'
+
+DEFAULT_ROLES.each do |role|
+  Role.create(name: role)
+end

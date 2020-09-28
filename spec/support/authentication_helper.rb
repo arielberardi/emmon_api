@@ -1,6 +1,13 @@
 module AuthenticationHelper
 
-  def create_user
+  def sign_up_and_sign_in params
+    
+    register_user params
+    confirmed_user params
+    headers = sign_in params
+  end
+
+  def user_attributes
     user = {
       name: 'Fake Name',
       email: 'fake@gmail.com',
@@ -10,7 +17,7 @@ module AuthenticationHelper
   end
 
   def register_user params
-    post user_registration_path, params:  params
+    post user_registration_path, params: params
   end
 
   def sign_in params
@@ -30,15 +37,10 @@ module AuthenticationHelper
   end
 
   def confirmed_user params
+
     @user = User.find_by(email: params[:email])
     @user.confirmed_at = Time.now
     @user.save
-  end
-
-  def sign_up_and_sign_in params
-    register_user params
-    confirmed_user params
-    headers = sign_in params
   end
 
 end

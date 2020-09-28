@@ -1,6 +1,7 @@
 # This is only for test purpose
 class HomeController < ApplicationController
-  before_action :authenticate_user!
+  include Authentication
+  include Authorization
   respond_to :json
 
   def index 
