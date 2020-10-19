@@ -1,13 +1,14 @@
 require 'rails_helper'
+require 'factories/department'
 
 RSpec.describe "api/v1/departments", type: :request do
 
   let(:valid_attributes) {
-    { name: 'administration' }
+    FactoryBot.attributes_for(:administration)
   }
 
   let(:invalid_attributes) {
-    { name: nil }
+    FactoryBot.attributes_for(:administration, name: nil)
   }
 
   let(:valid_headers) {
@@ -67,7 +68,7 @@ RSpec.describe "api/v1/departments", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        { name: 'develop' }
+        FactoryBot.attributes_for(:development)
       }
 
       it "updates the requested department" do

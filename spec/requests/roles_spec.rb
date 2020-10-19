@@ -1,13 +1,14 @@
 require 'rails_helper'
+require 'factories/role'  
 
 RSpec.describe "api/v1/roles", type: :request do
 
   let(:valid_attributes) {
-    { name: DEFAULT_ROLES[:admin] }
+    FactoryBot.attributes_for(:role_admin)
   }
 
   let(:invalid_attributes) {
-    { name: nil }
+    FactoryBot.attributes_for(:role_admin, name: nil)
   }
 
   let(:valid_headers) {
@@ -67,7 +68,7 @@ RSpec.describe "api/v1/roles", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        { name: DEFAULT_ROLES[:employee] }
+        FactoryBot.attributes_for(:role_employee)
       }
 
       it "updates the requested role" do

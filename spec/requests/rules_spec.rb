@@ -1,31 +1,14 @@
 require 'rails_helper'
+require 'factories/rule'
 
 RSpec.describe "api/v1/rules", type: :request do
 
-  before do
-    @role = Role.create(name: 'admin')
-  end
-
   let(:valid_attributes) {
-    { 
-      section: Role.model_name.plural.capitalize,
-      can_create: true,
-      can_read: true,
-      can_update: true,
-      can_delete: true,
-      role_id: @role.id
-    }
+    FactoryBot.attributes_for(:rule)
   }
 
   let(:invalid_attributes) {
-    { 
-      section: nil,
-      can_create: true,   
-      can_read: true,
-      can_update: true,
-      can_delete: true,
-      role_id: @role.id
-    }
+    FactoryBot.attributes_for(:rule, section: nil)
   }
 
   let(:valid_headers) {
@@ -85,14 +68,7 @@ RSpec.describe "api/v1/rules", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        { 
-          section: Department.model_name.plural.capitalize,
-          can_create: true,
-          can_read: true,
-          can_update: true,
-          can_delete: true,
-          role: @role
-        }
+        FactoryBot.attributes_for(:rule, section: 'Department')
       }
 
       it "updates the requested rule" do

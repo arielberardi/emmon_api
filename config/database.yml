@@ -9,9 +9,6 @@ default: &default
 development:
   <<: *default
   database: emmon_api_development
-  username: postgres
-  password: postgres
-  host: localhost
 
 test:
   <<: *default

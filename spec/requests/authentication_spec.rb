@@ -1,9 +1,10 @@
 require "rails_helper"
+require 'factories/user'
 
 RSpec.describe "Authentication" , :type => :request do
 
   before do
-    @params = user_attributes
+    @params = FactoryBot.attributes_for(:employee)
   end
 
   context "User sign up" do

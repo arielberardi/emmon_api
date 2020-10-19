@@ -1,6 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
-require "./spec/support/authentication_helper"
+require './spec/support/authentication_helper'
+require 'database_cleaner/active_record'
 
 ENV['RAILS_ENV'] ||= 'test'
 
@@ -69,4 +70,9 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.include FactoryBot::Syntax::Methods
   config.include AuthenticationHelper
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
 end
